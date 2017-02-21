@@ -12,6 +12,8 @@ import SignInForm from '../auth/signin';
 
 class UserMapDisplay extends React.Component {
 
+  // ????
+
   componentWillMount() {
     this.props.syncActionCreators.selectUserAndUpdateTags(this.props.currentUser);
   }
