@@ -37,32 +37,6 @@ app.post('/map', (req, res) => {
   const { feature, lat_long } = content;
   let saved_location_id;
 
-  console.log('REQ.BODY', content);
-
-  // myTransaction = function(fn) {
-  //   // do magical transaction things
-  //   const transaction = { magical: true }
-  //   fn(transaction)
-  // }
-  //
-  // knex.transaction(trx => {
-  //   function saveTags(tags) {
-  //     return knex.insert({ tag: 'tag' })
-  //       .into('tags')
-  //       .transacting(trx)
-  //   }
-  //
-  //   Promise.all([ saveTags(tags), findOrCreateLocation(params) ])
-  //     .then(({ tags, location }) => {
-  //       return Promise.all([ saveReview(location, user), createLinksForTags(user, tags, location) ])
-  //         .then(trx.commit)
-  //     })
-  //
-  //     .catch(error => {
-  //       trx.rollback()
-  //     })
-  // })
-
   knex('locations')
     .where('name', content.feature.properties.name)
     .andWhere('lat_long', [content.lat_long.lat, content.lat_long.lng])
@@ -124,23 +98,9 @@ app.post('/map', (req, res) => {
             .then(() => console.log('Relation saved.'))
             .catch(error => console.error('Error saving relation: ', error))
           }
-        })
-      })
-    })
-    // .then(() => {
-    //   content.tag_array.map(tag => {
-    //     return knex('tags').where('tag', tag).then(selected => {
-    //       console.log('SELECTED', selected)
-    //       return knex('locations_users_tags').insert({
-    //         location_id: saved_location_id,
-    //         tag_id: selected[0].id,
-    //         user_id: content.user_id
-    //       })
-    //       .then(() => console.log('Relation saved.'))
-    //       .catch(error => console.error('Error saving relation: ', error))
-    //     });
-    //   });
-    // });
+        });
+      });
+    });
   return res.status(201);
 });
 
